@@ -1,0 +1,132 @@
+<div class="crear-evento-container">
+  <div class="crear-evento-card">
+    <h2>Crear Nuevo Evento</h2>
+    
+    <form (ngSubmit)="onSubmit()" #crearEventoForm="ngForm">
+      <div class="form-group">
+        <label for="ev_nombre">Nombre del Evento:</label>
+        <input 
+          type="text" 
+          id="ev_nombre" 
+          name="ev_nombre" 
+          [(ngModel)]="eventoData.ev_nombre" 
+          required 
+          minlength="5"
+          maxlength="30"
+          class="form-control"
+          placeholder="Mínimo 5 caracteres, máximo 30"
+        >
+        <small class="form-text text-muted">Mínimo 5 caracteres, máximo 30</small>
+      </div>
+
+      <div class="form-group">
+        <label for="ev_description">Descripción:</label>
+        <textarea 
+          id="ev_description" 
+          name="ev_description" 
+          [(ngModel)]="eventoData.ev_description" 
+          required 
+          minlength="5"
+          maxlength="100"
+          rows="3"
+          class="form-control"
+          placeholder="Mínimo 5 caracteres, máximo 100"
+        ></textarea>
+        <small class="form-text text-muted">Mínimo 5 caracteres, máximo 100</small>
+      </div>
+
+      <div class="form-group">
+        <label for="ev_fecha_evento">Fecha del Evento:</label>
+        <input 
+          type="date" 
+          id="ev_fecha_evento" 
+          name="ev_fecha_evento" 
+          [(ngModel)]="eventoData.ev_fecha_evento" 
+          required 
+          class="form-control"
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="ev_ubicacion">Ubicación:</label>
+        <input 
+          type="text" 
+          id="ev_ubicacion" 
+          name="ev_ubicacion" 
+          [(ngModel)]="eventoData.ev_ubicacion" 
+          required 
+          minlength="5"
+          maxlength="70"
+          class="form-control"
+          placeholder="Mínimo 5 caracteres, máximo 70"
+        >
+        <small class="form-text text-muted">Mínimo 5 caracteres, máximo 70</small>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="ev_hora_inicio">Hora de Inicio:</label>
+          <input 
+            type="time" 
+            id="ev_hora_inicio" 
+            name="ev_hora_inicio" 
+            [(ngModel)]="eventoData.ev_hora_inicio" 
+            required 
+            class="form-control"
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="ev_hora_fin">Hora de Fin:</label>
+          <input 
+            type="time" 
+            id="ev_hora_fin" 
+            name="ev_hora_fin" 
+            [(ngModel)]="eventoData.ev_hora_fin" 
+            required 
+            class="form-control"
+          >
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="ev_imagen_lugar">URL de la Imagen:</label>
+        <input 
+          type="url" 
+          id="ev_imagen_lugar" 
+          name="ev_imagen_lugar" 
+          [(ngModel)]="eventoData.ev_imagen_lugar" 
+          placeholder="https://picsum.photos/400/200 (opcional)"
+          class="form-control"
+        >
+        <small class="form-text text-muted">
+          Opcional. Usa URLs directas de imágenes (ej: .jpg, .png, .gif) o YouTube. 
+          <br>❌ No uses URLs de páginas web (TripAdvisor, Facebook, etc.)
+          <br>✅ Si no se proporciona, se usará una imagen aleatoria
+        </small>
+      </div>
+
+      <div class="error-message" *ngIf="errorMessage">
+        {{ errorMessage }}
+      </div>
+
+      <div class="form-actions">
+        <button 
+          type="submit" 
+          [disabled]="!crearEventoForm.form.valid || isLoading"
+          class="btn btn-primary"
+        >
+          {{ isLoading ? 'Creando...' : 'Crear Evento' }}
+        </button>
+        
+        <button 
+          type="button" 
+          (click)="goBack()" 
+          class="btn btn-secondary"
+        >
+          Cancelar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

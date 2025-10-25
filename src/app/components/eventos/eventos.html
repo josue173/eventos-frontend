@@ -1,0 +1,97 @@
+<div class="eventos-container">
+  <header class="header">
+    <h1>Eventos</h1>
+    <div class="user-info">
+      <span>Bienvenido, {{ authService.getCurrentUser()?.us_nombre }}</span>
+      <button (click)="logout()" class="btn btn-secondary">Cerrar Sesión</button>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <div class="actions-bar">
+      <button (click)="goToCrearEvento()" class="btn btn-primary">
+        + Crear Evento
+      </button>
+    </div>
+
+    <div class="loading" *ngIf="isLoading">
+      <p>Cargando eventos...</p>
+    </div>
+
+    <div class="error" *ngIf="errorMessage">
+      <p>{{ errorMessage }}</p>
+      <button (click)="loadEventos()" class="btn btn-primary">Reintentar</button>
+    </div>
+
+    <div class="eventos-grid" *ngIf="!isLoading && !errorMessage">
+      <div class="evento-card" *ngFor="let evento of eventos">
+        <div class="evento-imagen">
+          <img 
+            [src]="getImageUrl(evento)" 
+            [alt]="evento.ev_nombre" 
+            (error)="onImageError($event)"
+            (load)="onImageLoad($event)"
+            loading="lazy"
+          >
+          <div class="evento-imagen-placeholder" style="display: none;">
+            <div class="placeholder-content">
+              <span>🖼️</span>
+              <p>Imagen no disponible</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="evento-header">
+          <h3>{{ evento.ev_nombre }}</h3>
+          <span class="evento-fecha">{{ formatDate(evento.ev_fecha_evento) }}</span>
+        </div>
+        
+        <div class="evento-body">
+          <p class="evento-descripcion">{{ evento.ev_description }}</p>
+          
+          <div class="evento-details">
+            <div class="detail-item">
+              <strong>Ubicación:</strong>
+              <span>{{ evento.ev_ubicacion }}</span>
+            </div>
+            
+            <div class="detail-item">
+              <strong>Horario:</strong>
+              <span>{{ formatTime(evento.ev_hora_inicio) }} - {{ formatTime(evento.ev_hora_fin) }}</span>
+            </div>
+            
+            <div class="detail-item">
+              <strong>Organizador:</strong>
+              <span>{{ evento.ev_propietario }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="evento-actions">
+          <button 
+            (click)="confirmarParticipacion(evento.ev_id)" 
+            class="btn btn-success"
+          >
+            Participar
+          </button>
+          <button 
+            (click)="goToEditarEvento(evento.ev_id)" 
+            class="btn btn-warning"
+          >
+            Editar
+          </button>
+          <button 
+            (click)="eliminarEvento(evento.ev_id, evento.ev_nombre)" 
+            class="btn btn-danger"
+          >
+            Eliminar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="no-eventos" *ngIf="!isLoading && !errorMessage && eventos.length === 0">
+      <p>No hay eventos disponibles en este momento.</p>
+    </div>
+  </main>
+</div>
